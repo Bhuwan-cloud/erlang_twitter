@@ -1,0 +1,44 @@
+<h1>Post Details</h1>
+<div id="show-page">
+
+  <%= if @live_action in [:edit] do %>
+    <.modal return_to={Routes.post_show_path(@socket, :show, @post)}>
+      <.live_component
+        module={TweetappWeb.PostLive.FormComponent}
+        id={@post.id}
+        title={@page_title}
+        action={@live_action}
+        post={@post}
+        return_to={Routes.post_show_path(@socket, :show, @post)}
+      />
+    </.modal>
+  <% end %>
+
+  <ul>
+
+    <li>
+      <strong>Username:</strong>
+      <%= @post.username %>
+    </li>
+
+    <li>
+      <strong>Post description:</strong>
+      <%= @post.body %>
+    </li>
+
+    <li>
+      <strong>Likes count:</strong>
+      <%= @post.likes_count %>
+    </li>
+
+    <li>
+      <strong>Reposts count:</strong>
+      <%= @post.reposts_count %>
+    </li>
+
+  </ul>
+
+</div>
+
+<span><%= live_patch "Edit", to: Routes.post_show_path(@socket, :edit, @post), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.post_index_path(@socket, :index) %></span>

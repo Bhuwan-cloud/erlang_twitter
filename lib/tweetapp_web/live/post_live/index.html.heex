@@ -1,0 +1,33 @@
+
+<div class="header">
+  <div> <h1 >Posts Timeline</h1></div>
+  <div>
+      <%= live_patch to: Routes.post_index_path(@socket, :new) do %>
+        <i class="fas fa-plus-square ">  new post </i> 
+      <% end %>
+    </div>
+</div>
+
+
+<%= if @live_action in [:new, :edit, :delete, :show ] do %>
+  <.modal return_to={Routes.post_index_path(@socket, :index)}>
+    <.live_component
+      module={TweetappWeb.PostLive.FormComponent}
+      id={@post.id || :new}
+      title={@page_title}
+      action={@live_action}
+      post={@post}
+      return_to={Routes.post_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+
+<div id="posts", phx-update="prepend">
+  <%= for post <- @posts do %>
+    <%= live_component @socket, TweetappWeb.PostLive.PostComponent, id: post.id, post: post %>
+  <% end %>
+</div>
+
+
+
